@@ -17,6 +17,19 @@ RSpec.feature "Customers", type: :feature do
     visit(customers_path)
     click_on('Add a client')
     expect(page).to have_content('New client')
-    expect(page).to have_link('Save')
+  end
+
+  scenario 'have content in form and save' do
+    visit(new_customer_path)
+    customer_name = Faker::Name.name
+    fill_in('Name', with: customer_name)
+    fill_in('Email', with: Faker::Internet.email)
+    fill_in('Telephone', with: Faker::PhoneNumber.phone_number)
+    attach_file('Avatar', "#{Rails.root}/spec/fixtures/avatar.png")
+    choose(option: %w[S N].sample)
+    click_on('Save')
+    # expect(page).to have_link('Save')
+    expect(Customer.last.name).to eq(customer_name)
+    expect(page).to have_content('Saved new client successfully')
   end
 end
