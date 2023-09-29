@@ -50,15 +50,32 @@ RSpec.feature "Customers", type: :feature do
     customer1 = Customer.create!(
       name: Faker::Name.name,
       email: Faker::Internet.email,
-      telephone: Faker::PhoneNumber.phone_number
+      telephone: Faker::PhoneNumber.phone_number,
+      avatar: "#{Rails.root}/spec/fixtures/avatar.png",
+      smoke: %w[S N].sample
     )
     customer2 = Customer.create!(
       name: Faker::Name.name,
       email: Faker::Internet.email,
-      telephone: Faker::PhoneNumber.phone_number
+      telephone: Faker::PhoneNumber.phone_number,
+      avatar: "#{Rails.root}/spec/fixtures/avatar.png",
+      smoke: %w[S N].sample
     )
     visit(customers_path)
     expect(page).to have_content(customer1.name)
     expect(page).to have_content(customer2.name)
+  end
+  scenario 'edit a customer' do
+    customer = Customer.create!(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      telephone: Faker::PhoneNumber.phone_number
+    )
+    new_name = Faker::Name.name
+    visit(edit_customer_path(customer.id))
+    fill_in('Name', with: new_name)
+    click_on('Update')
+    expect(page).to have_content(new_name)
+    expect(page).to have_content('Client updated successfully')
   end
 end
