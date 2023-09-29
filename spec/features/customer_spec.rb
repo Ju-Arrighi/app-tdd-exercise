@@ -46,4 +46,19 @@ RSpec.feature "Customers", type: :feature do
     visit(customer_path(customer.id))
     expect(page).to have_content(customer.name)
   end
+  scenario 'list clients on index page' do
+    customer1 = Customer.create!(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      telephone: Faker::PhoneNumber.phone_number
+    )
+    customer2 = Customer.create!(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      telephone: Faker::PhoneNumber.phone_number
+    )
+    visit(customers_path)
+    expect(page).to have_content(customer1.name)
+    expect(page).to have_content(customer2.name)
+  end
 end
