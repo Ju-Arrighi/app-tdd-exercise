@@ -78,4 +78,28 @@ RSpec.feature "Customers", type: :feature do
     expect(page).to have_content(new_name)
     expect(page).to have_content('Client updated successfully')
   end
+  scenario 'click on show link at index' do
+    customer = Customer.create!(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      telephone: Faker::PhoneNumber.phone_number,
+      avatar: "#{Rails.root}/spec/fixtures/avatar.png",
+      smoke: %w[S N].sample
+    )
+    visit(customers_path)
+    find(:xpath, '/html/body/table/tbody/tr[1]/td[2]/a').click
+    expect(page).to have_content('Client Data')
+  end
+  scenario 'click on edit link at index' do
+    customer = Customer.create!(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      telephone: Faker::PhoneNumber.phone_number,
+      avatar: "#{Rails.root}/spec/fixtures/avatar.png",
+      smoke: %w[S N].sample
+    )
+    visit(customers_path)
+    find(:xpath, '/html/body/table/tbody/tr[1]/td[3]/a').click
+    expect(page).to have_content('Edit Client')
+  end
 end

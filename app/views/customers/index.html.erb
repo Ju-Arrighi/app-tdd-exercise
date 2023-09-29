@@ -3,9 +3,25 @@
 <% end %>
 <h1>Client's list</h1>
 
-<% @customers.each do |customer| %>
-  <p><%= customer.name %></p>
-  <p><%= customer.email %></p>
-  <p><%= customer.telephone %></p>
-<% end %>
+<table>
+  <thead>
+    <tr>
+      <td>Name</td>
+      <%# <td>Email</td> %>
+      <%# <td>Phone</td> %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @customers.each do |customer| %>
+    <tr>
+      <td><%= customer.name %></td>
+      <td><%= link_to 'Show', customer_path(customer) %></td>
+      <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
+      <%# <td><%= customer.email %></td> %>
+      <%# <td><%= customer.telephone %></td> %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Add a client', new_customer_path %>
