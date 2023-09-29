@@ -37,4 +37,13 @@ RSpec.feature "Customers", type: :feature do
     click_on('Save')
     expect(page).to have_content("Name can't be blank")
   end
+  scenario 'show a client' do
+    customer = Customer.create!(
+      name: Faker::Name.name,
+      email: Faker::Internet.email,
+      telephone: Faker::PhoneNumber.phone_number
+    )
+    visit(customer_path(customer.id))
+    expect(page).to have_content(customer.name)
+  end
 end
