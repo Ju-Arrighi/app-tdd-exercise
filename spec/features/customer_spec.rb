@@ -32,4 +32,9 @@ RSpec.feature "Customers", type: :feature do
     expect(Customer.last.name).to eq(customer_name)
     expect(page).to have_content('Saved new client successfully')
   end
+  scenario "don't save invalid content" do
+    visit(new_customer_path)
+    click_on('Save')
+    expect(page).to have_content("Name can't be blank")
+  end
 end
